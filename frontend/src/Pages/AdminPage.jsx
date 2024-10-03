@@ -24,7 +24,7 @@ const AdminPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    axios.get('https://matrimony-os38.onrender.com/getDetails')
+    axios.get('https://matrimony-v2-0.onrender.com/getDetails')
       .then(response => {
         setDetails(response.data);
         console.log(response.data);
@@ -75,7 +75,7 @@ const AdminPage = () => {
   async function handleDelete(id) {
     try {
       // Send the request to the deleteProfile endpoint
-      const response = await axios.post("https://matrimony-os38.onrender.com/deleteProfile", { User_id: id });
+      const response = await axios.post("https://matrimony-v2-0.onrender.com/deleteProfile", { User_id: id });
       
       // Check the response and alert the message
       if (response.status === 200) {

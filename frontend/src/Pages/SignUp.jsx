@@ -42,7 +42,7 @@ const SignUp = () => {
     if (valid) {
       setLoading(true); // Start loading
 
-      axios.post('https://matrimony-os38.onrender.com/signup', formData)
+      axios.post('https://matrimony-v2-0.onrender.com/signup', formData)
         .then(response => {
           console.log(response.data);
           setLoading(false); // Stop loading

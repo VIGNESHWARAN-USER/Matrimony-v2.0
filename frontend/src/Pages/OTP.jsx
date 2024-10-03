@@ -16,7 +16,7 @@ function OTPComp() {
   function resendOTP() {
     if (disable) return;
     axios
-      .post("https://matrimony-os38.onrender.com/send_recovery_email", {
+      .post("https://matrimony-v2-0.onrender.com/send_recovery_email", {
         OTP: otp,
         recipient_email: email,
       })

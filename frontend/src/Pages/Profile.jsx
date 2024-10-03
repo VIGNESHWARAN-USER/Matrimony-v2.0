@@ -53,7 +53,7 @@ const UserProfile = () => {
         setUser(response);
         if (response && response.User_id) {
           const res = await axios.get(
-            `https://matrimony-os38.onrender.com/getImage?User_id=${response.User_id}`
+            `https://matrimony-v2-0.onrender.com/getImage?User_id=${response.User_id}`
           );
           const base64Image = res.data.image;
           setPostImage({ myfile: base64Image, User_id: response.User_id });
@@ -119,7 +119,7 @@ const UserProfile = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'https://matrimony-os38.onrender.com/updateProfileDetails',
+        'https://matrimony-v2-0.onrender.com/updateProfileDetails',
         {
           User_id: user.User_id,
           name: user.name,
@@ -144,7 +144,7 @@ const UserProfile = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'https://matrimony-os38.onrender.com/updateCareerDetails',
+        'https://matrimony-v2-0.onrender.com/updateCareerDetails',
         {
           User_id: user.User_id,
           highest_degree: user.highest_degree,
@@ -168,7 +168,7 @@ const UserProfile = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'https://matrimony-os38.onrender.com/updateFamilyDetails',
+        'https://matrimony-v2-0.onrender.com/updateFamilyDetails',
         {
           User_id: user.User_id,
           family_type: user.family_type,
@@ -196,7 +196,7 @@ const UserProfile = () => {
     if (postImage.myfile) {
       try {
         const res = await axios.post(
-          'https://matrimony-os38.onrender.com/uploadImage',
+          'https://matrimony-v2-0.onrender.com/uploadImage',
           postImage
         );
         alert(res.data.msg);

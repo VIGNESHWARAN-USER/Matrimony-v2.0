@@ -51,7 +51,7 @@ const Login = () => {
       console.log(formData.email);
       try {
         setLoading(true); // Start loading
-        const response = await axios.post('https://matrimony-os38.onrender.com/send_recovery_email', { OTP, recipient_email: formData.email });
+        const response = await axios.post('https://matrimony-v2-0.onrender.com/send_recovery_email', { OTP, recipient_email: formData.email });
         setLoading(false); // Stop loading
         console.log(response.data.success);
         if (response.data.success) {
@@ -75,7 +75,7 @@ const Login = () => {
 
     if (validateForm()) {
       setLoading(true); // Start loading
-      axios.post('https://matrimony-os38.onrender.com/login', formData)
+      axios.post('https://matrimony-v2-0.onrender.com/login', formData)
         .then(response => {
           setLoading(false); // Stop loading
           // Store user details in local storage

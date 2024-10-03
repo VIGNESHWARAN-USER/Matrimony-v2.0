@@ -70,7 +70,7 @@ const UpiPage = () => {
     } else {
       try {
         const res = await axios.post(
-          "https://matrimony-os38.onrender.com/uploadPaymentImage",
+          "https://matrimony-v2-0.onrender.com/uploadPaymentImage",
           { User_id: user.User_id, tid: tid, image: postImage.myfile }
         );
         alert(res.data.msg);

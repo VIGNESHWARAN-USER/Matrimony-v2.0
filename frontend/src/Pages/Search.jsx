@@ -186,7 +186,7 @@ const MatrimonySearch = () => {
     useEffect(() => {
         const response = JSON.parse(localStorage.getItem('user'));
         setuser(response);
-        axios.get('https://matrimony-os38.onrender.com/getDetails')
+        axios.get('https://matrimony-v2-0.onrender.com/getDetails')
             .then(response => {
                 setDetails(response.data);
                 setFilteredProfiles(response.data);

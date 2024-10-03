@@ -22,7 +22,7 @@ const Requests = ({ user }) => {
 
   const handleActivateAccount = (User_id) => {
     // API call to activate the user account
-    axios.post(`https://matrimony-os38.onrender.com/activateUser/${User_id}`)
+    axios.post(`https://matrimony-v2-0.onrender.com/activateUser/${User_id}`)
       .then(response => {
         alert('User account activated successfully');
         setDetails(details.map(user => user.User_id === User_id ? { ...user, status: 'active' } : user));
@@ -35,7 +35,7 @@ const Requests = ({ user }) => {
 
   const handleDeActivateAccount = (User_id) => {
     // API call to deactivate the user account
-    axios.post(`https://matrimony-os38.onrender.com/deactivateUser/${User_id}`)
+    axios.post(`https://matrimony-v2-0.onrender.com/deactivateUser/${User_id}`)
       .then(response => {
         alert('User account deactivated successfully');
         setDetails(details.map(user => user.User_id === User_id ? { ...user, status: 'inactive' } : user));
@@ -48,7 +48,7 @@ const Requests = ({ user }) => {
 
   const fetchUserImage = async (User_id) => {
     try {
-      const res = await axios.get(`https://matrimony-os38.onrender.com/getImage?User_id=${User_id}`);
+      const res = await axios.get(`https://matrimony-v2-0.onrender.com/getImage?User_id=${User_id}`);
       setBase64Image(res.data.image);
     } catch (error) {
       console.error('Error fetching user image:', error);
