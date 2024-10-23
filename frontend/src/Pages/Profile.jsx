@@ -26,9 +26,10 @@ const UserProfile = () => {
     about_family: '',
     status: '',
     image: '',
+    option_val: '',
+    refer: '',
+    donor: ''
   });
-
-  console.log(user.User_id);
 
   const navigate = useNavigate();
 
@@ -51,13 +52,13 @@ const UserProfile = () => {
       try {
         const response = JSON.parse(localStorage.getItem('user'));
         setUser(response);
+
         if (response && response.User_id) {
           const res = await axios.get(
             `https://matrimony-v2-0.onrender.com/getImage?User_id=${response.User_id}`
           );
           const base64Image = res.data.image;
           setPostImage({ myfile: base64Image, User_id: response.User_id });
-          console.log(postImage.myfile);
         }
       } catch (error) {
         console.error('Error fetching user details:', error);
@@ -119,6 +120,7 @@ const UserProfile = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
+
         'https://matrimony-v2-0.onrender.com/updateProfileDetails',
         {
           User_id: user.User_id,
@@ -127,6 +129,9 @@ const UserProfile = () => {
           marital_status: user.marital_status,
           mother_tongue: user.mother_tongue,
           gender: user.gender,
+          option_val: user.option_val,
+          refer: user.refer,
+          donor: user.donor
         }
       );
       setIsEditing(false);
@@ -313,7 +318,82 @@ const UserProfile = () => {
               <option value="Other">Other</option>
             </select>
           </div>
+          <div className="form-group">
+  <label
+    htmlFor="option_val"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Siddha vidhai petravara?
+  </label>
+  <div className="mt-2 flex space-x-4">
+    <label className="flex items-center">
+      <input
+        type="radio"
+        id="yes"
+        name="option_val"
+        value="yes"
+        checked={user.option_val === 'yes'}
+        onChange={handleChange}
+        disabled={!isEditing}
+        required
+        className="mr-2 text-gray-800 focus:ring focus:ring-amber-300"
+      />
+      Yes
+    </label>
+    <label className="flex items-center">
+      <input
+        type="radio"
+        id="no"
+        name="option_val"
+        value="no"
+        checked={user.option_val === 'no'}
+        onChange={handleChange}
+        disabled={!isEditing}
+        required
+        className="mr-2 text-gray-800 focus:ring focus:ring-amber-300"
+      />
+      No
+    </label>
+  </div>
+</div>
 
+
+          <div className="form-group">
+            <label
+              htmlFor="donor"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Yearidam siddha vidhai petreergal?
+            </label>
+            <input
+              type="text"
+              id="donor"
+              name="donor"
+              value={user.donor}
+              onChange={handleChange}
+              disabled={!isEditing}
+              required
+              className="mt-2 block w-full border border-gray-300 rounded-lg p-3 text-gray-800 shadow-sm focus:ring focus:ring-amber-300"
+            />
+          </div>
+          <div className="form-group">
+            <label
+              htmlFor="refer"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Mention two name to refer your profile
+            </label>
+            <input
+              type="text"
+              id="refer"
+              name="refer"
+              value={user.refer}
+              onChange={handleChange}
+              disabled={!isEditing}
+              required
+              className="mt-2 block w-full border border-gray-300 rounded-lg p-3 text-gray-800 shadow-sm focus:ring focus:ring-amber-300"
+            />
+          </div>
           <div className="flex justify-end">
             {isEditing ? (
               <button

@@ -155,7 +155,7 @@ app.post("/reset-password", async (req, res) => {
 // Routes
 app.post('/signup', async (req, res) => {
   const { name, email, password, gender } = req.body;
-  console.log(gender);
+
   try {
     // Check if user already exists
     const checkUserQuery = 'SELECT * FROM login WHERE email = ?';
@@ -256,7 +256,7 @@ app.post('/login', (req, res) => {
     const query = `
       SELECT 
         u.User_id, u.email, u.password, 
-        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image,
+        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image, pd.donor, pd.refer, pd.option_val,
         cd.highest_degree, cd.employed_in, cd.annual_income, cd.express_yourself,
         lf.family_type, lf.father_occupation, lf.mother_occupation, lf.brother, lf.sister, 
         lf.family_living_location, lf.contact_address, lf.about_family, lf.status
@@ -303,7 +303,7 @@ app.get('/getDetails', (req, res) => {
     const query = `
       SELECT 
         u.User_id, u.email, u.password, 
-        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image,
+        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image, pd.donor, pd.refer, pd.option_val,
         cd.highest_degree, cd.employed_in, cd.annual_income, cd.express_yourself,
         lf.family_type, lf.father_occupation, lf.mother_occupation, lf.brother, lf.sister, 
         lf.family_living_location, lf.contact_address, lf.about_family, lf.status, py.screenshot, py.transaction_id
@@ -351,7 +351,6 @@ app.post('/uploadImage',  async (req, res) => {
   const sizeInBytes = (base64Length * 3) / 4 - padding;
   const sizeInKB = sizeInBytes / 1024;
   if(sizeInKB > 40){
-    console.log('Compress', sizeInKB)
     return res.json({msg: 'Image should be less than 40KB'})
   }
   const query = 'UPDATE profile_details SET image = ? WHERE User_id = ?';
@@ -361,8 +360,6 @@ app.post('/uploadImage',  async (req, res) => {
       console.error('Error updating image:', err);
       return res.status(500).json({ msg: 'Server error' });
     }
-
-    console.log('Image updated successfully');
     return res.json({ msg: 'Image updated successfully' });
   });
 });
@@ -371,14 +368,11 @@ app.post('/uploadImage',  async (req, res) => {
 // Endpoint to retrieve image
 app.get('/getImage', async (req, res) => {
   const User_id = req.query.User_id; // Use req.query to get query parameters
-  console.log(User_id);
-
   if (!User_id) {
     return res.status(400).json({ msg: 'Missing User_id' });
   }
 
   const query = 'SELECT image FROM profile_details WHERE User_id = ?';
-  console.log('Query');
   db.query(query, [User_id], (err, results) => {
     if (err) {
       console.error('Error retrieving image:', err);
@@ -401,7 +395,6 @@ app.get('/getImage', async (req, res) => {
 
 app.post('/uploadPaymentImage', async (req, res) => {
   const { User_id, tid, image } = req.body;
-  console.log(image)
   // Check for missing image or User_id
   if (!image || !User_id) {
     return res.json({ msg: 'Missing image or User_id' });
@@ -415,7 +408,6 @@ app.post('/uploadPaymentImage', async (req, res) => {
 
   // Check if the image size exceeds 40KB
   if (sizeInKB > 40) {
-    console.log('Compress', sizeInKB);
     return res.json({ msg: 'Image should be less than 40KB' });
   }
 
@@ -458,8 +450,7 @@ app.post('/uploadPaymentImage', async (req, res) => {
 });
 
 app.post('/updateProfileDetails', async (req, res) => {
-  const { User_id, name, mother_tongue, marital_status, dob, gender } = req.body;
-
+  const { User_id, name, mother_tongue, marital_status, dob, gender, option_val, refer, donor } = req.body;
   try {
     const updateProfileQuery = `
       UPDATE profile_details
@@ -468,11 +459,14 @@ app.post('/updateProfileDetails', async (req, res) => {
         mother_tongue = ?, 
         marital_status = ?, 
         dob = ?, 
-        gender = ?
+        gender = ?,
+        donor = ?,
+        refer = ?,
+        option_val = ?
       WHERE User_id = ?
     `;
 
-    db.query(updateProfileQuery, [name, mother_tongue, marital_status, dob, gender, User_id], (err, result) => {
+    db.query(updateProfileQuery, [name, mother_tongue, marital_status, dob, gender,donor, refer, option_val, User_id], (err, result) => {
       if (err) {
         console.error('Error updating profile details:', err);
         return res.status(500).send('Internal Server Error');
@@ -480,7 +474,7 @@ app.post('/updateProfileDetails', async (req, res) => {
       const query = `
       SELECT 
         u.User_id, u.email, u.password, 
-        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image,
+        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image, pd.donor, pd.refer, pd.option_val,
         cd.highest_degree, cd.employed_in, cd.annual_income, cd.express_yourself,
         lf.family_type, lf.father_occupation, lf.mother_occupation, lf.brother, lf.sister, 
         lf.family_living_location, lf.contact_address, lf.about_family, lf.status
@@ -529,7 +523,7 @@ app.post('/updateCareerDetails', async (req, res) => {
       const query = `
       SELECT 
         u.User_id, u.email, u.password, 
-        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image,
+        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image, pd.donor, pd.refer, pd.option_val,
         cd.highest_degree, cd.employed_in, cd.annual_income, cd.express_yourself,
         lf.family_type, lf.father_occupation, lf.mother_occupation, lf.brother, lf.sister, 
         lf.family_living_location, lf.contact_address, lf.about_family, lf.status
@@ -584,7 +578,7 @@ app.post('/updateFamilyDetails', async (req, res) => {
       const query = `
       SELECT 
         u.User_id, u.email, u.password, 
-        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image,
+        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image, pd.donor, pd.refer, pd.option_val,
         cd.highest_degree, cd.employed_in, cd.annual_income, cd.express_yourself,
         lf.family_type, lf.father_occupation, lf.mother_occupation, lf.brother, lf.sister, 
         lf.family_living_location, lf.contact_address, lf.about_family, lf.status
@@ -654,7 +648,6 @@ app.post('/deactivateUser/:User_id', (req, res) => {
 
 app.post('/deleteProfile', (req, res) => {
   const { User_id } = req.body;
-  console.log(req.body);
   // SQL queries to delete data from all relevant tables
   const deleteProfileQuery = 'DELETE FROM profile_details WHERE User_id = ?';
   const deleteLifestyleQuery = 'DELETE FROM lifestyle_family WHERE User_id = ?';
