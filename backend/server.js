@@ -298,7 +298,7 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/getDetails', (req, res) => {
-  const status = 'admin';
+  const status = 'active';
   try {
     const query = `
       SELECT 
@@ -314,7 +314,7 @@ app.get('/getDetails', (req, res) => {
         INNER JOIN lifestyle_family lf ON u.User_id = lf.User_id
         INNER JOIN payment py ON u.User_id = py.User_id
       WHERE 
-        lf.status != ?
+        lf.status = ? 
     `;
 
     db.query(query, [status], (err, results) => {
@@ -552,7 +552,7 @@ app.post('/updateCareerDetails', async (req, res) => {
 });
 
 app.post('/updateFamilyDetails', async (req, res) => {
-  const { User_id, family_type, father_occupation, mother_occupation, brother, sister, family_living_location, contact_address, about_family, status } = req.body;
+  const { User_id, family_type, father_occupation, mother_occupation, brother, sister, family_living_location, contact_address, about_family } = req.body;
 
   try {
     const updateFamilyQuery = `
@@ -565,12 +565,11 @@ app.post('/updateFamilyDetails', async (req, res) => {
         sister = ?, 
         family_living_location = ?, 
         contact_address = ?, 
-        about_family = ?,
-        status = ?
+        about_family = ?
       WHERE User_id = ?
     `;
 
-    db.query(updateFamilyQuery, [family_type, father_occupation, mother_occupation, brother, sister, family_living_location, contact_address, about_family, status, User_id], (err, result) => {
+    db.query(updateFamilyQuery, [family_type, father_occupation, mother_occupation, brother, sister, family_living_location, contact_address, about_family, User_id], (err, result) => {
       if (err) {
         console.error('Error updating family details:', err);
         return res.status(500).send('Internal Server Error');

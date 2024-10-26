@@ -10,7 +10,8 @@ const Requests = ({ user }) => {
 
   const handleOpenDetails = (user) => {
     setSelectedUser(user);
-    fetchUserImage(user.User_id);  // Fetch user image when opening details
+    fetchUserImage(user.User_id);
+    console.log(user);  // Fetch user image when opening details
     setIsModalOpen(true);
   };
 
@@ -59,42 +60,74 @@ const Requests = ({ user }) => {
     if (!selectedUser) return null;
 
     return (
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">User Details</h2>
+      <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-6 sm:p-8 lg:p-6 overflow-y-auto max-h-[500px] space-y-4">
+    <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">User Details</h2>
+    <div className="flex flex-col items-center">
         <img
-          src={'data:image/jpeg;base64,' + selectedUser.image}
-          alt="Profile"
-          className="w-32 h-32 rounded-full object-cover mb-4"
+            src={'data:image/jpeg;base64,' + selectedUser.image}
+            alt="Profile"
+            className="w-24 h-24 rounded-full object-cover mb-4 border border-gray-200 shadow-sm"
         />
-        <p><b>User ID:</b> {selectedUser.User_id}</p>
-        <h2 className="text-2xl font-semibold mb-4">Payment Details</h2>
-        {base64Image && (
-          <img
-            src={'data:image/jpeg;base64,' + base64Image}
-            alt="Screenshot"
-            className="w-44 h-56  object-cover mb-4"
-          />
-        )}
-        <p><b>Transaction ID:</b> {selectedUser.transaction_id}</p>
+        <p className="text-lg font-medium text-gray-700 mb-2">{selectedUser.name}</p>
+    </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-gray-600">
+        <div>
+            <p><strong>User ID:</strong> {selectedUser.User_id}</p>
+            <p><strong>Email:</strong> {selectedUser.email}</p>
+            <p><strong>Mother Tongue:</strong> {selectedUser.mother_tongue}</p>
+            <p><strong>Date of Birth:</strong> {selectedUser.dob}</p>
+        </div>
+        <div>
+            <p><strong>Highest Degree:</strong> {selectedUser.highest_degree}</p>
+            <p><strong>Occupation:</strong> {selectedUser.employed_in}</p>
+            <p><strong>Annual Income:</strong> {selectedUser.annual_income}</p>
+        </div>
+    </div>
+
+    <div className="mt-4 text-gray-700">
+        <p className="font-semibold">Express Yourself:</p>
+        <p className="mb-4">{selectedUser.express_yourself}</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <p><strong>Family Type:</strong> {selectedUser.family_type}</p>
+                <p><strong>Father's Occupation:</strong> {selectedUser.father_occupation}</p>
+                <p><strong>Mother's Occupation:</strong> {selectedUser.mother_occupation}</p>
+                <p><strong>Brothers:</strong> {selectedUser.brother}</p>
+            </div>
+            <div>
+                <p><strong>Sisters:</strong> {selectedUser.sister}</p>
+                <p><strong>Family Living Location:</strong> {selectedUser.family_living_location}</p>
+                <p><strong>Contact Address:</strong> {selectedUser.contact_address}</p>
+                <p><strong>About Family:</strong> {selectedUser.about_family}</p>
+            </div>
+        </div>
+        <p className="mt-4"><strong>Status:</strong> {selectedUser.status}</p>
+    </div>
+
+    <div className="flex justify-between mt-6">
         <button
-          onClick={handleCloseModal}
-          className='mt-4 bg-blue-500 text-white py-2 px-4 rounded'
+            onClick={handleCloseModal}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-200"
         >
-          Back to Users
+            Back to Users
         </button>
         <button
-          onClick={() => handleDeActivateAccount(selectedUser.User_id)}
-          className='mt-4 ml-2 bg-red-500 text-white py-2 px-4 rounded'
+            onClick={() => handleDeActivateAccount(selectedUser.User_id)}
+            className="bg-red-500 ms-4 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition duration-200"
         >
-          Deactivate Account
+            Deactivate Account
         </button>
         <button
-          onClick={() => handleActivateAccount(selectedUser.User_id)}
-          className='mt-4 ml-2 bg-green-500 text-white py-2 px-4 rounded'
+            onClick={() => handleActivateAccount(selectedUser.User_id)}
+            className="bg-green-500 ms-4 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition duration-200"
         >
-          Activate Account
+            Activate Account
         </button>
-      </div>
+    </div>
+</div>
+
     );
   };
 

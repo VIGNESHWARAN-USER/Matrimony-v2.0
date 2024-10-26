@@ -122,9 +122,6 @@ const UpiPage = () => {
           <Link to="/matrimony" className="text-white m-2 font-bold px-3 py-2 hover:bg-white hover:text-black hover:rounded-md hover:shadow-md transition-all">
             Home
           </Link>
-          <Link to="/search" className="text-white m-2 font-bold px-3 py-2 hover:bg-white hover:text-black hover:rounded-md hover:shadow-md transition-all">
-            Search
-          </Link>
           <Link to="/profile" className="text-white m-2 font-bold px-3 py-2 hover:bg-white hover:text-black hover:rounded-md hover:shadow-md transition-all">
             Profile
           </Link>
@@ -132,7 +129,7 @@ const UpiPage = () => {
 
         {/* Mobile menu */}
         <div className={`mobile-menu ${isOpen ? "block" : "hidden"} absolute top-full right-0 mt-2 bg-white shadow-lg rounded-lg w-48 z-40`}>
-          {['Search', 'Profile', 'Donate', 'Login'].map((link) => (
+          {['Profile', 'Donate', 'Login'].map((link) => (
             <Link
               key={link}
               to={`/${link.toLowerCase()}`}
