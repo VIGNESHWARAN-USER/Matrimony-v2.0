@@ -337,6 +337,45 @@ app.get('/getDetails', (req, res) => {
   }
 });
 
+app.get('/getDetails1', (req, res) => {
+  const status = 'admin';
+  try {
+    const query = `
+      SELECT 
+        u.User_id, u.email, u.password, 
+        pd.name, pd.mother_tongue, pd.marital_status, pd.dob, pd.image, pd.gender, pd.image, pd.donor, pd.refer, pd.option_val,
+        cd.highest_degree, cd.employed_in, cd.annual_income, cd.express_yourself,
+        lf.family_type, lf.father_occupation, lf.mother_occupation, lf.brother, lf.sister, 
+        lf.family_living_location, lf.contact_address, lf.about_family, lf.status, py.screenshot, py.transaction_id
+      FROM 
+        login u
+        INNER JOIN profile_details pd ON u.User_id = pd.User_id
+        INNER JOIN career_details cd ON u.User_id = cd.User_id
+        INNER JOIN lifestyle_family lf ON u.User_id = lf.User_id
+        INNER JOIN payment py ON u.User_id = py.User_id
+      WHERE 
+        lf.status != ? 
+    `;
+
+    db.query(query, [status], (err, results) => {
+      if (err) {
+        console.error('Error during searching:', err);
+        return res.status(500).json({ msg: 'Server error' });
+      }
+
+  
+
+      if (results.length === 0) {
+        return res.status(400).json({ msg: 'No Records Found.' });
+      }
+    
+      res.json(results); // Send results instead of a non-existent user variable
+    });
+  } catch (err) {
+    console.error('Error during searching:', err.message);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
 
 
 
