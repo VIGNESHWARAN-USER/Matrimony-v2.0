@@ -17,7 +17,12 @@ app.use(bodyParser.json({ limit: '10mb' }));
 // Middleware
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://chennaisiddhaviddhai.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 // SSL certificate
 const caCert = fs.readFileSync('./ca.pem');
