@@ -15,6 +15,7 @@ import UpiPage from "./Pages/Payment"
 import MatrimonySearch from "./Pages/Search"
 import OTPComp from "./Pages/OTP"
 import Password from "./Pages/Password"
+import React from "react"
 
 function App() {
 

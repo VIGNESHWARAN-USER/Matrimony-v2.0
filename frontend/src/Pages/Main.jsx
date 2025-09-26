@@ -8,7 +8,8 @@ import testnomial1 from "../Images/user.png";
 const Main = () => {
     const testimonialsRef = useRef(null);
     const user = JSON.parse(localStorage.getItem('user'))
-    console.log(user.status);
+    
+    console.log(user?.status);
     useEffect(() => {
         // Handling the details card
         const seeMoreBtn = document.getElementById('see-more');
@@ -99,7 +100,7 @@ const Main = () => {
 
     return (
         <div className="bg-custom-yellow overflow-x-hidden">
-            {(user.status === 'active')?(<nav className="bg-transparent fixed w-full z-10 top-0 transition-all duration-300 py-2">
+            {(user?.status === 'active')?(<nav className="bg-transparent fixed w-full z-10 top-0 transition-all duration-300 py-2">
                 <div className="container mx-auto flex justify-between items-center px-4">
                     <Link to="/" className="flex items-center">
                         <img src={logo11} className="w-24 h-auto" alt="Logo" />
@@ -171,7 +172,7 @@ const Main = () => {
                 }
             <img src={wallpaper} className="w-full h-screen object-cover" alt="Cinque Terre" />
             <div className="description absolute top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2 text-left font-light px-4 md:px-0">
-                <h2 className="text-5xl text-gray-800 md:font-bold">Hello And <span className="text-amber-500">World</span></h2>
+                <h2 className="text-[40px] text-gray-800 md:font-bold">Hello And <span className="text-amber-500">Welcome</span></h2>
                 <h2 className="text-4xl text-gray-800">Plan Your <span className="text-amber-500">Dream Partner</span> With Us</h2>
             </div>    
         </div>
